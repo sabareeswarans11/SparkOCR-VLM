@@ -34,10 +34,9 @@ spark = build_local_spark()
 
 pipeline = OCRPipeline(
     backend="openrouter",
-    model="deepseek-ai/DeepSeek-OCR-v2",
+    model="nvidia/nemotron-nano-12b-v2-vl:free",  # free tier
     input_path="./sample_pdfs/",
     output_path="./output_delta/",
-    batch_size=8,
     max_cost_usd=1.0,
 )
 
@@ -54,6 +53,78 @@ df.show(truncate=80)
 +-----------------+--------+--------+------+-----------------------+
 ```
 
+## Real pipeline results
+
+Ran the full Spark pipeline (`local[2]`, Delta Lake output) against three synthetic
+documents using **`nvidia/nemotron-nano-12b-v2-vl:free`** via OpenRouter.
+**4 pages · $0.00 total cost.**
+
+### synth_invoice.pdf — 1 page
+
+```markdown
+# Invoice INV-2024-001
+
+Bill to: ACME Corp
+Date: 2024-01-15
+
+| Item        | Qty | Price   | Total    |
+|:------------|:----|:--------|:---------|
+| Widget A    | 10  | $25.00  | $250.00  |
+| Widget B    | 5   | $50.00  | $250.00  |
+| Service Fee | 1   | $734.56 | $734.56  |
+| **Total:**  |     |         | **$1,234.56** |
+```
+
+### synth_report.pdf — 2 pages
+
+```markdown
+# Q1 2025 Quarterly Report
+
+Prepared by: Finance Team
+
+## Executive Summary
+
+Revenue grew 18% year over year, driven by enterprise contracts.
+Operating margin improved to 22.4%.
+
+---
+
+# Detailed Results
+
+- Revenue: $42.1M
+- Gross margin: 71%
+- Net income: $9.4M
+- Headcount: 312
+- Key risks: foreign exchange, supplier consolidation.
+```
+
+### synth_table.pdf — 1 page
+
+```markdown
+# Sales by Region
+
+| Region | Q1  | Q2  | Q3  |
+|:-------|:----|:----|:----|
+| North  | 100 | 120 | 140 |
+| South  | 80  | 90  | 110 |
+| East   | 60  | 70  | 85  |
+| West   | 150 | 160 | 175 |
+```
+
+### Spark run stats
+
+| File | Pages | Tokens (in/out) | Cost |
+|---|---|---|---|
+| synth_invoice.pdf | 1 | 311 / 150 | $0.00 |
+| synth_report.pdf  | 2 | 3402 / 50 + 3402 / 52 | $0.00 |
+| synth_table.pdf   | 1 | 3402 / 117 | $0.00 |
+| **Total** | **4** | | **$0.00** |
+
+> Free-tier models share upstream quota — parallel Spark executors can hit rate limits.
+> For production, use a paid OpenRouter key or add credits to Together.ai.
+
+---
+
 ## Mock mode (no API keys)
 
 ```python
@@ -65,13 +136,14 @@ Every unit test runs on the mock backend — zero API spend.
 
 ## Backends
 
-| Backend | Models | Free tier? | Notes |
+| Backend | Recommended model | Free tier? | Notes |
 |---|---|---|---|
-| `openrouter` (default) | `deepseek-ai/DeepSeek-OCR-v2`, `qwen/qwen3-vl-instruct` | Yes | Recommended |
-| `together` | `deepseek-ai/DeepSeek-OCR-v2`, `Qwen/Qwen3-VL-Instruct` | Trial credits | OpenAI-compatible API |
-| `gemini` | `gemini-2.0-flash` (vision) | Yes (rate-limited) | Use when DeepSeek/Qwen unavailable |
-| `modal` | Any HF model | Pay per second | Self-hosted GPU |
-| `mock` | n/a | n/a | Tests + dry runs |
+| `openrouter` (default) | `nvidia/nemotron-nano-12b-v2-vl:free` | ✅ Yes | Verified working; sign up at openrouter.ai |
+| `openrouter` | `google/gemma-4-31b-it:free` | ✅ Yes | Alt free vision model |
+| `gemini` | `gemini-2.0-flash` | ✅ Yes (rate-limited) | Google AI Studio free key |
+| `together` | `meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo` | 💳 Credits | Pay-per-token, very cheap |
+| `modal` | Any HF vision model | 💳 Pay per second | Self-hosted GPU |
+| `mock` | n/a | ✅ Free | Unit tests + dry runs |
 
 ## Where this runs
 
