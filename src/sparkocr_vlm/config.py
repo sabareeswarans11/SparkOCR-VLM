@@ -31,7 +31,7 @@ class Settings(BaseSettings):
 
     # Default backend + model (override per-call or via env)
     sparkocr_default_backend: str = "openrouter"
-    sparkocr_default_model: str = "qwen/qwen2.5-vl-72b-instruct:free"
+    sparkocr_default_model: str = "google/gemma-4-31b-it:free"
 
     # Behavior flags
     log_costs: bool = False  # SPARKOCR_LOG_COSTS=1 appends to runtime/COSTS.md
