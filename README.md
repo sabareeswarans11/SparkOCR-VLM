@@ -2,6 +2,7 @@
 
 > Distributed VLM-based OCR for PySpark. DeepSeek-OCR-v2 + Qwen3-VL, with Delta Lake output, callable as a `pandas_udf`.
 
+[![CI](https://github.com/sabareeswarans11/SparkOCR-VLM/actions/workflows/ci.yml/badge.svg)](https://github.com/sabareeswarans11/SparkOCR-VLM/actions/workflows/ci.yml)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![PySpark 3.5](https://img.shields.io/badge/pyspark-3.5-orange.svg)](https://spark.apache.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
