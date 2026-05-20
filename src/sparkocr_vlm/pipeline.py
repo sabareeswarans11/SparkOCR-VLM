@@ -82,7 +82,11 @@ class OCRPipeline:
 
         from pyspark.sql import functions as F
         from pyspark.sql.types import (
-            StructType, StructField, StringType, IntegerType, BinaryType,
+            BinaryType,
+            IntegerType,
+            StringType,
+            StructField,
+            StructType,
         )
 
         # Pre-flight cost cap check (rough budget guardrail).

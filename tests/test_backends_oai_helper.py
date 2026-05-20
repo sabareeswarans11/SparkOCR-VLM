@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-import json
-
 import httpx
-import pytest
 
 from sparkocr_vlm.backends import _oai_compatible as oai
 

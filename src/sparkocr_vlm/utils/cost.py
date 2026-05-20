@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from threading import Lock
 
 from sparkocr_vlm.config import settings
-
 
 # Prices per 1M tokens, USD. Update when providers change pricing.
 # (input_price, output_price)
@@ -62,7 +61,7 @@ def record_cost(
     dirpath = runtime_dir or Path(os.environ.get("SPARKOCR_RUNTIME_DIR", "runtime"))
     dirpath.mkdir(parents=True, exist_ok=True)
     path = dirpath / "COSTS.md"
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    ts = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     with _COST_LOCK:
         if not path.exists():

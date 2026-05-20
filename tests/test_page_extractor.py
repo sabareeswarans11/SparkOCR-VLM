@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pymupdf
 import pytest
 
 from sparkocr_vlm.page_extractor import PageExtractor
@@ -27,5 +28,5 @@ def test_max_pages_truncates(synth_report_bytes):
 
 def test_empty_pdf_raises():
     # Minimal PDF with zero pages is hard to forge; pass invalid bytes instead.
-    with pytest.raises(Exception):
+    with pytest.raises(pymupdf.FileDataError):
         PageExtractor().extract(b"not a pdf")

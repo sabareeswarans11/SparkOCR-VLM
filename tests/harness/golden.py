@@ -9,7 +9,6 @@ from sparkocr_vlm.backends import mock as mock_mod
 from sparkocr_vlm.evaluator import normalized_edit_distance
 from sparkocr_vlm.schema import OCROutput
 
-
 GOLDEN_DIR = Path(__file__).resolve().parents[1] / "fixtures" / "golden"
 
 

@@ -7,7 +7,7 @@ import asyncio
 from typing import Any
 
 import httpx
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
 from sparkocr_vlm.backends.base import (
     DEFAULT_PROMPT,
@@ -17,7 +17,6 @@ from sparkocr_vlm.backends.base import (
 from sparkocr_vlm.schema import OCROutput
 from sparkocr_vlm.utils.cost import record_cost
 from sparkocr_vlm.utils.image import encode_png_data_uri
-
 
 SAMPLING_PARAMS_BY_MODEL: dict[str, dict[str, Any]] = {
     "deepseek-ai/DeepSeek-OCR-v2":         {"temperature": 0.0, "max_tokens": 4096, "top_p": 1.0},

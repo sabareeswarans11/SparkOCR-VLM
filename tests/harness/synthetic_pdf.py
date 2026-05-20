@@ -113,10 +113,10 @@ class SyntheticPDFBuilder:
         return path
 
     def build_table(self) -> Path:
-        from reportlab.lib.pagesizes import LETTER
         from reportlab.lib import colors
-        from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+        from reportlab.lib.pagesizes import LETTER
         from reportlab.lib.styles import getSampleStyleSheet
+        from reportlab.platypus import Paragraph, SimpleDocTemplate, Table, TableStyle
 
         path = self.out_dir / "synth_table.pdf"
         buf = io.BytesIO()

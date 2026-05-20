@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 
 def test_parse_single_mock(synth_invoice_bytes, mock_pipeline):
     df = mock_pipeline.parse_single(synth_invoice_bytes)

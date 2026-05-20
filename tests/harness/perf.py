@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import argparse
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from sparkocr_vlm.backends import get_backend
@@ -38,7 +38,7 @@ def run_perf(pages: int, backend: str, model: str, output: Path) -> dict:
     mean_lat = wall / pages if pages else 0.0
 
     report = {
-        "ts": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
+        "ts": datetime.now(UTC).strftime("%Y-%m-%dT%H:%MZ"),
         "backend": backend,
         "model": model,
         "pages": pages,

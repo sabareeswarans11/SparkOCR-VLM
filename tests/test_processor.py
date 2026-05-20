@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pandas as pd
 
-from sparkocr_vlm.processor import parse_batch
 from sparkocr_vlm.page_extractor import PageExtractor
+from sparkocr_vlm.processor import parse_batch
 
 
 def test_parse_batch_mock(synth_invoice_bytes, synth_table_bytes):
@@ -19,8 +19,9 @@ def test_parse_batch_mock(synth_invoice_bytes, synth_table_bytes):
 
 
 def test_pandas_udf_runs_on_spark(spark, synth_invoice_bytes):
-    from sparkocr_vlm.processor import make_ocr_udf
     from pyspark.sql.functions import col
+
+    from sparkocr_vlm.processor import make_ocr_udf
 
     pages = PageExtractor(dpi=150).extract(synth_invoice_bytes)
     pdf = pd.DataFrame({"png": pages})

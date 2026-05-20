@@ -9,7 +9,10 @@
       "Bash(.venv/bin/python *)",
       "Bash(git -C /Users/sabareeswarans/Projects_26/SparkOCR-VLM init)",
       "Bash(git -C /Users/sabareeswarans/Projects_26/SparkOCR-VLM branch -M main)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git *)",
+      "Bash(gh run *)",
+      "Bash(.venv/bin/ruff check *)"
     ]
   }
 }

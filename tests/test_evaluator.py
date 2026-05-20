@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pandas as pd
-
 from sparkocr_vlm.evaluator import (
     Evaluator,
     anchor_recall,

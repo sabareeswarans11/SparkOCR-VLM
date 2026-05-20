@@ -11,7 +11,6 @@ import hashlib
 from sparkocr_vlm.backends.base import VLMBackend
 from sparkocr_vlm.schema import OCROutput
 
-
 DEFAULT_MOCK_MARKDOWN = "# Mock Document\n\nThis is canned OCR output for testing.\n"
 
 

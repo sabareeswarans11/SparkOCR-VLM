@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-from pathlib import Path
 
 
 def test_synthetic_pdfs_deterministic(tmp_path):
@@ -11,7 +10,7 @@ def test_synthetic_pdfs_deterministic(tmp_path):
 
     a = SyntheticPDFBuilder(out_dir=tmp_path / "a").build_all()
     b = SyntheticPDFBuilder(out_dir=tmp_path / "b").build_all()
-    for pa, pb in zip(a, b):
+    for pa, pb in zip(a, b, strict=False):
         assert hashlib.sha256(pa.read_bytes()).hexdigest() == hashlib.sha256(pb.read_bytes()).hexdigest()
 
 

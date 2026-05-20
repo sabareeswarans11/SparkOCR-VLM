@@ -3,11 +3,11 @@
 Importable without pyspark installed — the UDF is only constructed on demand.
 """
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from sparkocr_vlm.backends import VLMBackend, get_backend
 from sparkocr_vlm.schema import OCROutput
-
 
 # Per-executor (= per-Python-process) singleton store.
 _BACKEND_CACHE: dict[tuple[str, str], VLMBackend] = {}
@@ -48,7 +48,7 @@ def make_ocr_udf(backend_name: str, model: str, **kwargs: Any) -> Callable:
     matching ``OCR_OUTPUT_SPARK_SCHEMA``.
     """
     import pandas as pd
-    from pyspark.sql.functions import pandas_udf, PandasUDFType
+    from pyspark.sql.functions import PandasUDFType, pandas_udf
 
     from sparkocr_vlm.schema import get_ocr_output_spark_schema
 

@@ -4,8 +4,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Field, ConfigDict
-
+from pydantic import BaseModel, ConfigDict, Field
 
 DocType = Literal["invoice", "report", "scan", "form", "other", "unknown"]
 
@@ -45,11 +44,11 @@ class PipelineConfig(BaseModel):
 def get_ocr_output_spark_schema():
     """Return the Spark StructType matching OCROutput. Imported lazily."""
     from pyspark.sql.types import (
-        StructType,
-        StructField,
-        StringType,
         DoubleType,
         IntegerType,
+        StringType,
+        StructField,
+        StructType,
     )
 
     return StructType(

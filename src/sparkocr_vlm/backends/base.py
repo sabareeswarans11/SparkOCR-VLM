@@ -7,7 +7,6 @@ from abc import ABC, abstractmethod
 
 from sparkocr_vlm.schema import OCROutput
 
-
 DEFAULT_PROMPT = (
     "You are a document OCR engine. Read the image and emit the document content "
     "as well-structured Markdown. Preserve headings, paragraphs, lists, and tables. "

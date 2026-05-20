@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from sparkocr_vlm.backends.base import VLMBackend
 from sparkocr_vlm.schema import OCROutput
-from sparkocr_vlm.utils.cost import estimate_cost
 
 
 class ModalBackend(VLMBackend):
