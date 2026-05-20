@@ -8,6 +8,7 @@ from typing import Any
 import pandas as pd
 
 from sparkocr_vlm.backends import get_backend
+from sparkocr_vlm.config import settings
 from sparkocr_vlm.page_extractor import PageExtractor
 from sparkocr_vlm.processor import make_ocr_udf, parse_batch
 from sparkocr_vlm.schema import PipelineConfig
@@ -22,8 +23,8 @@ class OCRPipeline:
 
     def __init__(
         self,
-        backend: str = "openrouter",
-        model: str = "deepseek-ai/DeepSeek-OCR-v2",
+        backend: str | None = None,
+        model: str | None = None,
         input_path: str | None = None,
         output_path: str | None = None,
         batch_size: int = 8,
@@ -32,9 +33,10 @@ class OCRPipeline:
         max_pages_per_doc: int | None = None,
         backend_kwargs: dict[str, Any] | None = None,
     ) -> None:
+        cfg = settings()
         self.cfg = PipelineConfig(
-            backend=backend,
-            model=model,
+            backend=backend or cfg.sparkocr_default_backend,
+            model=model or cfg.sparkocr_default_model,
             input_path=input_path,
             output_path=output_path,
             batch_size=batch_size,

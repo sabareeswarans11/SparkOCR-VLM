@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     aws_access_key_id: str | None = None
     aws_secret_access_key: SecretStr | None = None
 
+    # Default backend + model (override per-call or via env)
+    sparkocr_default_backend: str = "openrouter"
+    sparkocr_default_model: str = "qwen/qwen2.5-vl-72b-instruct:free"
+
     # Behavior flags
     log_costs: bool = False  # SPARKOCR_LOG_COSTS=1 appends to runtime/COSTS.md
     private_runtime: bool = False  # SPARKOCR_PRIVATE_RUNTIME=1 keeps runtime/ out of git
