@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/sabareeswarans/Projects_26/SparkOCR-VLM status)",
+      "Bash(python3 *)",
+      "Bash(/usr/local/bin/python3.11 *)",
+      "Bash(/Users/sabareeswarans/Projects_26/SparkOCR-VLM/.venv/bin/python *)",
+      "Bash(.venv/bin/pip install *)",
+      "Bash(.venv/bin/python *)",
+      "Bash(git -C /Users/sabareeswarans/Projects_26/SparkOCR-VLM init)",
+      "Bash(git -C /Users/sabareeswarans/Projects_26/SparkOCR-VLM branch -M main)",
+      "Bash(git *)"
+    ]
+  }
+}

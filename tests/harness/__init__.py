@@ -1,0 +1,1 @@
+"""SparkOCR-VLM test harness."""

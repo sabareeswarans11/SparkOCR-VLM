@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets — NEVER commit
+.env
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Pytest / coverage
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Delta Lake / Spark local
+derby.log
+metastore_db/
+spark-warehouse/
+
+# Runtime files (generated during dev sessions)
+runtime/COSTS.md
+runtime/BENCH.md
+
+# Generated fixtures (recreated by test harness)
+tests/fixtures/*.pdf
+tests/fixtures/*.png
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# MLflow runs
+mlruns/
+mlartifacts/
+
+# Distribution
+*.whl
+*.tar.gz
