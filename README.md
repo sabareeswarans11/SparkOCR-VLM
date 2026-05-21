@@ -141,6 +141,8 @@ Operating margin improved to 22.4%.
 
 Scored against committed ground-truth goldens using `03_evaluation.ipynb`. Metrics logged to MLflow.
 
+![Eval metrics chart](docs/eval_metrics_chart.png)
+
 ### Per-page scores
 
 | File | Page | Edit Distance ↓ | Anchor Recall ↑ | Table F1 ↑ | Reading Order ED ↓ |
