@@ -66,17 +66,22 @@ class GeminiBackend(VLMBackend):
             },
         }
 
+        class _GeminiRateLimit(Exception):
+            pass
+
         @retry(
             reraise=True,
-            stop=stop_after_attempt(3),
-            wait=wait_exponential(multiplier=0.5, min=0.5, max=5.0),
+            stop=stop_after_attempt(6),
+            wait=wait_exponential(multiplier=2, min=2, max=60),
             retry=retry_if_exception_type(
-                (httpx.ConnectError, httpx.ReadTimeout, httpx.RemoteProtocolError)
+                (httpx.ConnectError, httpx.ReadTimeout, httpx.RemoteProtocolError, _GeminiRateLimit)
             ),
         )
         async def _do() -> dict:
             async with httpx.AsyncClient() as client:
                 r = await client.post(url, json=payload, timeout=self.timeout)
+                if r.status_code == 429:
+                    raise _GeminiRateLimit(f"429: {r.text[:120]}")
                 if r.status_code >= 500:
                     raise httpx.RemoteProtocolError(f"{r.status_code}: {r.text[:200]}")
                 r.raise_for_status()

@@ -41,18 +41,23 @@ def sampling_for(model: str) -> dict[str, Any]:
     )
 
 
+class _RateLimit(Exception):
+    """Raised on HTTP 429 so tenacity retries with longer backoff."""
+
+
 @retry(
     reraise=True,
-    stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=0.5, min=0.5, max=5.0),
+    stop=stop_after_attempt(6),
+    wait=wait_exponential(multiplier=2, min=2, max=60),
     retry=retry_if_exception_type(
-        (httpx.ConnectError, httpx.ReadTimeout, httpx.RemoteProtocolError)
+        (httpx.ConnectError, httpx.ReadTimeout, httpx.RemoteProtocolError, _RateLimit)
     ),
 )
 async def _post(client: httpx.AsyncClient, url: str, headers: dict, payload: dict) -> dict:
     r = await client.post(url, headers=headers, json=payload, timeout=60.0)
+    if r.status_code == 429:
+        raise _RateLimit(f"429 rate-limited: {r.text[:120]}")
     if r.status_code >= 500:
-        # 5xx: tenacity will retry by raising
         raise httpx.RemoteProtocolError(f"{r.status_code}: {r.text[:200]}")
     r.raise_for_status()
     return r.json()
