@@ -198,6 +198,37 @@ All 22 unit tests run on the mock backend — zero API spend, zero network calls
 - `tests/` + `tests/harness/` — pytest suite with deterministic synthetic-PDF harness
 - `tasks/` — per-component build specs
 
+## What was built — end-to-end summary
+
+| Layer | What | Status |
+|---|---|---|
+| **Library** | `sparkocr_vlm` Python package — pipeline, backends, evaluator, schema | ✅ |
+| **Backends** | OpenRouter, Gemini, Together, Modal, Mock — all behind one `VLMBackend` ABC | ✅ |
+| **PySpark UDF** | `pandas_udf` wrapping VLM calls; executor-safe key injection via closure | ✅ |
+| **Delta Lake** | Bronze → Silver pipeline; Unity Catalog table on Databricks Free | ✅ |
+| **Evaluator** | Edit distance, anchor recall, table F1, reading-order ED; MLflow logging | ✅ |
+| **Test harness** | 22 unit tests, deterministic synthetic PDFs, golden assertions — mock backend only | ✅ |
+| **CI/CD** | GitHub Actions — ruff lint + pytest on every push, Java 17 + Python 3.11 | ✅ |
+| **Notebooks** | Quickstart, Databricks Free Edition demo, evaluation | ✅ |
+| **Databricks** | Wheel deployed to Volume, pipeline runs on serverless, results in UC table | ✅ |
+| **Cost** | End-to-end run on 4 pages: **$0.00** (OpenRouter free tier) | ✅ |
+
+### Key design decisions
+
+- **No GPU required** — all inference is via API (OpenRouter, Gemini, Together). Runs on any Mac or cloud VM.
+- **Spark-native** — pages are distributed via `mapInPandas`, OCR via `pandas_udf`. No custom schedulers.
+- **Backend-agnostic** — switching models is one config flag; free and paid tiers both supported.
+- **Retry-safe** — exponential backoff on HTTP 429 and soft rate-limit errors (200 with error body).
+- **Cost-capped** — `max_cost_usd` hard-stops the pipeline before spending over budget.
+- **Observable** — every page logs `prompt_tokens`, `completion_tokens`, `cost_usd`, `error` to Delta.
+
+### Next steps
+
+- Publish `sparkocr-vlm` to PyPI
+- Add a `databricks` backend targeting Foundation Model endpoints
+- Extend evaluator to OmniDocBench v1.5 full benchmark
+- Add streaming Delta writes for very large document lakes
+
 ## License
 
 MIT. See `LICENSE`.
