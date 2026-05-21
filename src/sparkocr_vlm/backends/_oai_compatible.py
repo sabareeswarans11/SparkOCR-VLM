@@ -103,10 +103,18 @@ def call_oai_compatible(
 
     async def _run() -> dict:
         async with httpx.AsyncClient() as client:
-            return await _post(client, f"{base_url}/chat/completions", headers, payload)
+            data = await _post(client, f"{base_url}/chat/completions", headers, payload)
+            # Some providers (e.g. OpenRouter) return HTTP 200 with an error body
+            # when rate-limited or when the upstream model is unavailable.
+            # Treat these as retriable the same as a 429.
+            if "error" in data and "choices" not in data:
+                raise _RateLimit(f"soft error in 200 body: {str(data['error'])[:120]}")
+            return data
 
     try:
         data = asyncio.run(_run())
+    except _RateLimit as e:
+        return OCROutput(markdown="", model=model, error=f"rate_limit: {e}")
     except httpx.HTTPStatusError as e:
         return OCROutput(markdown="", model=model, error=f"http {e.response.status_code}: {e.response.text[:200]}")
     except Exception as e:  # noqa: BLE001
