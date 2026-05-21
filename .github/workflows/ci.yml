@@ -26,7 +26,9 @@ jobs:
           java-version: "17"
 
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        # Pin PySpark 3.5.x for CI — delta-spark 3.x is incompatible with PySpark 4.x.
+        # The package itself has no upper cap so it installs on Databricks 4.x runtimes.
+        run: pip install -e ".[dev]" "pyspark>=3.5.0,<4.0" "delta-spark>=3.2.0,<4.0"
 
       - name: Lint (ruff)
         run: ruff check src/ tests/
