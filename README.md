@@ -3,6 +3,7 @@
 [![CI](https://github.com/sabareeswarans11/SparkOCR-VLM/actions/workflows/ci.yml/badge.svg)](https://github.com/sabareeswarans11/SparkOCR-VLM/actions/workflows/ci.yml)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![PySpark 3.5](https://img.shields.io/badge/pyspark-3.5-orange.svg)](https://spark.apache.org/)
+[![PyPI](https://img.shields.io/pypi/v/sparkocr-vlm.svg)](https://pypi.org/project/sparkocr-vlm/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Distributed VLM-based OCR at scale — PySpark + Vision-Language Models + Delta Lake.**
@@ -32,6 +33,12 @@ Databricks `ai_parse_document` solves part of this but is **closed-source and Da
 ---
 
 ## Install
+
+```bash
+pip install sparkocr-vlm
+```
+
+Or for local dev:
 
 ```bash
 git clone https://github.com/sabareeswarans11/SparkOCR-VLM.git
@@ -221,13 +228,6 @@ All 22 unit tests run on the mock backend — zero API spend, zero network calls
 - **Retry-safe** — exponential backoff on HTTP 429 and soft rate-limit errors (200 with error body).
 - **Cost-capped** — `max_cost_usd` hard-stops the pipeline before spending over budget.
 - **Observable** — every page logs `prompt_tokens`, `completion_tokens`, `cost_usd`, `error` to Delta.
-
-### Next steps
-
-- Publish `sparkocr-vlm` to PyPI
-- Add a `databricks` backend targeting Foundation Model endpoints
-- Extend evaluator to OmniDocBench v1.5 full benchmark
-- Add streaming Delta writes for very large document lakes
 
 ## License
 
